@@ -2,16 +2,19 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Stringer is a tool to automate the creation of methods that satisfy the fmt.Stringer
-// interface. Given the name of a (signed or unsigned) integer type T that has constants
-// defined, stringer will create a new self-contained Go source file implementing
+// GoEnum is a tool to automate the creation of Enums. Given the name of a (signed or unsigned) integer type T that has constants
+// defined, GoEnum will create a new self-contained Go source file implementing
 //
 //	func (t T) String() string
 //
+// 	func (t TEnum) IsValid() bool
+// 
+//  func (t TEnum) <Constvarname>() T
+// 
 // The file is created in the same package and directory as the package that defines T.
 // It has helpful defaults designed for use with go generate.
 //
-// Stringer works best with constants that are consecutive values such as created using iota,
+// GoEnum works best with constants that are consecutive values such as created using iota,
 // but creates good code regardless. In the future it might also provide custom support for
 // constant sets that are bit patterns.
 //
@@ -31,7 +34,7 @@
 //
 // running this command
 //
-//	stringer -type=Pill
+//	GoEnum -type=Pill
 //
 // in the same directory will create the file pill_string.go, in package painkiller,
 // containing a definition of
@@ -44,7 +47,7 @@
 //
 // Typically this process would be run using go generate, like this:
 //
-//	//go:generate stringer -type=Pill
+//	//go:generate GoEnum -type=Pill
 //
 // If multiple constants have the same value, the lexically first matching name will
 // be used (in the example, Acetaminophen will print as "Paracetamol").
@@ -63,7 +66,7 @@
 // package with suffix "_test".
 // The default output file for type declarations in tests is t_string_test.go with t picked as above.
 //
-// The -linecomment flag tells stringer to generate the text of any line comment, trimmed
+// The -linecomment flag tells GoEnum to generate the text of any line comment, trimmed
 // of leading spaces, instead of the constant name. For instance, if the constants above had a
 // Pill prefix, one could write
 //
